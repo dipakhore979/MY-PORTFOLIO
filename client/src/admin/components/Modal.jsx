@@ -45,30 +45,33 @@ export default function Modal({ title, onClose, children, size = 'max-w-2xl' }) 
   }, []);
 
   return createPortal(
-    <div className="fixed inset-0 z-[90] flex items-start justify-center overflow-y-auto bg-slate-900/60 p-4 sm:items-center">
-      <div className="fixed inset-0" onClick={() => closeRef.current()} aria-hidden="true" />
-      <div
-        ref={dialogRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        tabIndex={-1}
-        className={`card relative my-8 w-full ${size} p-6 shadow-2xl focus:outline-none`}
-      >
-        <div className="mb-5 flex items-start justify-between gap-4">
-          <h2 id={titleId} className="text-xl font-bold text-slate-900 dark:text-white">
-            {title}
-          </h2>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close dialog"
-            className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
-          >
-            <X className="h-5 w-5" />
-          </button>
+    <div className="fixed inset-0 z-[90] overflow-y-auto bg-slate-900/60">
+      {/* min-h-full lets the box grow past the screen and scroll from its top edge */}
+      <div className="flex min-h-full items-start justify-center p-4 sm:items-center">
+        <div className="fixed inset-0" onClick={() => closeRef.current()} aria-hidden="true" />
+        <div
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+          tabIndex={-1}
+          className={`card relative my-4 w-full ${size} p-6 shadow-2xl focus:outline-none`}
+        >
+          <div className="mb-5 flex items-start justify-between gap-4">
+            <h2 id={titleId} className="text-xl font-bold text-slate-900 dark:text-white">
+              {title}
+            </h2>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close dialog"
+              className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+          {children}
         </div>
-        {children}
       </div>
     </div>,
     document.body,
