@@ -10,6 +10,8 @@ export const site = {
     'Portfolio of Dipak Hore, a full-stack developer building web apps with React, Node.js, Express and MongoDB.',
   url: (import.meta.env.VITE_SITE_URL || 'http://localhost:5173').replace(/\/$/, ''),
   photo: '/profile.jpg',
+  status: 'Open to new opportunities',
+  stack: ['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS'],
   email: 'dipakhore979@gmail.com',
   github: 'https://github.com/dipakhore979',
   linkedin: 'https://www.linkedin.com/in/dipak-hore',
