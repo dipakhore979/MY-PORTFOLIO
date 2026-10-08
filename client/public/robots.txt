@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+
+# After deploying, replace with your real domain and remove the leading "#":
+# Sitemap: https://your-domain.com/sitemap.xml

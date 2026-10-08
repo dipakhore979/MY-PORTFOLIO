@@ -1,0 +1,37 @@
+# Render Blueprint: New + > Blueprint, pick this repository.
+# Values marked "sync: false" are prompted for in the dashboard (never commit secrets).
+services:
+  - type: web
+    name: portfolio-api
+    runtime: node
+    plan: free
+    region: singapore # closest to India; change to your visitors' region
+    rootDir: server
+    buildCommand: npm install --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_URL # your site origin, e.g. https://your-portfolio.vercel.app
+        sync: false
+      - key: SITE_URL # same value as CLIENT_URL (used in sitemap.xml)
+        sync: false
+      - key: COOKIE_SAMESITE # "lax" because /api is proxied through the site (same-origin)
+        value: lax
+      - key: TRUST_PROXY # site proxy + Render = 2 hops
+        value: "2"
+      - key: CONTACT_RECEIVER
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
