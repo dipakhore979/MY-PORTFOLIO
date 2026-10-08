@@ -1,7 +1,7 @@
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://YOUR-API-NAME.onrender.com/api/:path*" },
-    { "source": "/sitemap.xml", "destination": "https://YOUR-API-NAME.onrender.com/api/sitemap.xml" },
+    { "source": "/api/:path*", "destination": "https://my-portfolio-zh77.onrender.com/api/:path*" },
+    { "source": "/sitemap.xml", "destination": "https://my-portfolio-zh77.onrender.com/api/sitemap.xml" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
