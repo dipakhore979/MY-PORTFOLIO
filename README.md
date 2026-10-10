@@ -15,6 +15,7 @@ A full-stack personal portfolio with a built-in admin dashboard, so you can upda
 - Light / dark mode (follows the system, remembers your choice, no flash on load)
 - Mobile-first responsive design, subtle Framer Motion animations (disabled for users who prefer reduced motion)
 - SEO: per-page title, description, canonical and Open Graph / Twitter tags, JSON-LD, `robots.txt`, dynamic `sitemap.xml`, 404 page
+- Link previews: LinkedIn, WhatsApp, X, Slack and similar crawlers get a per-project / per-post title, description and image (see `docs/DEPLOYMENT.md`, step 11)
 - Accessibility: skip link, labelled forms, focus management on navigation, keyboard-friendly menus and dialogs
 
 ### Admin dashboard (`/admin`)
@@ -49,6 +50,8 @@ A full-stack personal portfolio with a built-in admin dashboard, so you can upda
 │       ├── config/  controllers/  middleware/  models/
 │       ├── routes/  services/  utils/  validators/
 │       └── seed/seed.js
+│   └── tests/              API tests (Vitest + Supertest)
+├── .github/workflows/ci.yml  Runs the tests and a client build on every push
 ├── docs/DEPLOYMENT.md      Step-by-step production guide
 ├── scripts/smoke-test.mjs  Post-deploy checks
 └── render.yaml             Render Blueprint (optional)
@@ -90,6 +93,7 @@ Open <http://localhost:5173>, then <http://localhost:5173/admin> to log in with 
 | server | `npm run seed:admin` | Only creates the admin user and profile. **Safe to run on a live database** |
 | server | `npm run seed:destroy` | Clears projects, skills, experience and posts |
 | client | `npm run dev` / `build` / `preview` | Dev server, production build, preview the build |
+| server | `npm test` | API tests (see **Testing** below) |
 | both | `npm run lint` / `npm run format` | ESLint / Prettier |
 | root | `npm run smoke -- <api-url>` | Post-deploy checks (see `scripts/smoke-test.mjs`) |
 
@@ -133,6 +137,22 @@ Base path `/api`. Reads are public; writes need the admin cookie.
 
 List endpoints accept `page` and `limit`. Projects accept `?tech=React&featured=true`, posts accept `?tag=mern`. Drafts are only returned to a logged-in admin.
 
+## Testing
+
+The API has an automated test suite (Vitest + Supertest, about 150 checks) covering login and sessions, token tampering, input validation, mass-assignment and NoSQL-injection protection, draft visibility, permissions on every protected route, the contact form, uploads, rate limits, CORS, the sitemap and link-preview pages.
+
+```bash
+cd server
+npm install
+npm test          # run once
+npm run test:watch
+```
+
+- It needs a running MongoDB. By default it uses `mongodb://127.0.0.1:27017/portfolio_test`; set `TEST_MONGODB_URI` to use another one.
+- **Safety:** the tests delete data, so they refuse to run unless the database name ends in `_test`. They never touch your normal `portfolio` database.
+- Email and Cloudinary are switched off during tests.
+- GitHub Actions (`.github/workflows/ci.yml`) runs the same tests against a MongoDB container and also builds the client on every push.
+
 ## Screenshots
 
 Add your own screenshots to `docs/screenshots/` after you run the site. Suggested files:
@@ -170,8 +190,8 @@ Frontend on **Vercel or Netlify**, API on **Render or Railway**, database on **M
 
 ## Known limitations
 
-- **Social link previews:** this is a client-rendered single-page app. Google renders it, but LinkedIn / X / WhatsApp read only the default tags from `index.html`, so every shared link shows the home-page preview. Fixing this needs pre-rendering or server-side rendering.
+- **Link previews** need the bot rewrites in `client/vercel.json` (Vercel only). Netlify is not covered. Platforms cache previews, so use their debugger tools after changing a page.
 - **Uploads that are never saved** (cancelled forms) stay in storage.
 - The admin tables load the first 100 items per resource.
 - There is one admin user and no password-reset email flow.
-- There are no automated tests yet. `scripts/smoke-test.mjs` covers deployment checks only.
+- The API tests cover the backend. There are no browser (end-to-end) tests for the React app; CI only checks that it builds.

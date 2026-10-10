@@ -10,6 +10,7 @@
     "seed": "npm --prefix server run seed",
     "build": "npm --prefix client run build",
     "lint": "npm --prefix server run lint && npm --prefix client run lint",
-    "smoke": "node scripts/smoke-test.mjs"
+    "smoke": "node scripts/smoke-test.mjs",
+    "test": "npm --prefix server test"
   }
 }

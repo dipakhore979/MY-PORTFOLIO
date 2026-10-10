@@ -180,6 +180,26 @@ Then check by hand:
 - [ ] `https://your-site/sitemap.xml` lists your projects
 - [ ] Open a non-existent URL; the 404 page appears
 
+## 11. Link previews for LinkedIn, WhatsApp, X and Slack
+
+A React app is built in the browser, but the bots that create link previews do not run JavaScript, so without help every link shows the home-page preview. `client/vercel.json` therefore contains four rewrites that send **only those bots** to a small page on your API (`/api/share/...`) with the right title, description and image for that project or post. Visitors still get the normal site.
+
+1. Make sure the four `has`/`user-agent` rewrites at the top of `client/vercel.json` use **your** API host name (the same one as in the `/api/:path*` rule). Commit and push.
+2. `SITE_URL` on the API must be your public site address (step 8); the preview pages use it for their links and the default image.
+3. Test as a bot (PowerShell: use `curl.exe`, not `curl`):
+
+   ```bash
+   curl.exe -A "LinkedInBot/1.0" https://your-site.vercel.app/projects/your-project-slug
+   ```
+
+   You should see HTML with `og:title`, `og:description` and `og:image` for that project. Without the `-A` option you get the normal React page.
+4. Ask the platforms to refresh their cache; they keep old previews for days:
+   - LinkedIn: [Post Inspector](https://www.linkedin.com/post-inspector/)
+   - Facebook and WhatsApp: [Sharing Debugger](https://developers.facebook.com/tools/debug/) (click **Scrape Again**)
+5. Upload a project cover image in the admin dashboard: that image becomes the preview picture (cropped to 1200x630 when it is hosted on Cloudinary). Projects without one use `og-image.png`.
+
+Netlify does not support matching on the visitor's browser in `netlify.toml`, so this step is Vercel-only.
+
 ## Alternative: no proxy (cross-site cookies)
 
 If you would rather call the API directly: set `VITE_API_URL=https://<your-api-host>/api` on the frontend, leave `COOKIE_SAMESITE` empty (it defaults to `none` in production) and set `TRUST_PROXY=1` on the API, and remove the `/api` rewrite. **Safari and some privacy settings block these cross-site cookies, so admin login can fail there.** The proxy setup above avoids this.
@@ -197,6 +217,7 @@ If you would rather call the API directly: set `VITE_API_URL=https://<your-api-h
 | Contact form works but no email arrives | Check the API logs for "Contact email failed". On Render free, SMTP is blocked: use Resend. With the default sender you can only email your own Resend account address. |
 | Uploaded images disappear after a deploy | Cloudinary variables are missing, so files went to the temporary disk. |
 | Refreshing `/blog/my-post` shows a 404 page from the host | The SPA fallback rewrite is missing (check `vercel.json` / `netlify.toml` is in the Root/Base directory). |
+| Shared link shows the wrong preview or no image | Check step 11: test with `curl.exe -A "LinkedInBot/1.0" <url>`. If you see the React page, the bot rewrites are missing or use the wrong API host. If the tags are right, clear the platform's cache with its debugger tool. |
 | Resume button shows an error | No resume uploaded yet (Admin → Profile & resume) or `RESUME_URL` points nowhere. |
 
 ## Updating the site later

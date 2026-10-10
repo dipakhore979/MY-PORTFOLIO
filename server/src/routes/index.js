@@ -7,6 +7,7 @@ import postRoutes from './postRoutes.js';
 import profileRoutes from './profileRoutes.js';
 import projectRoutes from './projectRoutes.js';
 import resumeRoutes from './resumeRoutes.js';
+import shareRoutes from './shareRoutes.js';
 import skillRoutes from './skillRoutes.js';
 import { sitemap } from '../controllers/sitemapController.js';
 import uploadRoutes from './uploadRoutes.js';
@@ -29,5 +30,6 @@ router.use('/contact', contactRoutes);
 router.use('/messages', messageRoutes);
 router.use('/upload', uploadRoutes);
 router.use('/resume', resumeRoutes);
+router.use('/share', shareRoutes);
 
 export default router;

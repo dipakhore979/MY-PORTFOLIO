@@ -5,7 +5,9 @@
   "description": "REST API for the MERN portfolio",
   "type": "module",
   "main": "src/server.js",
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
@@ -13,7 +15,9 @@
     "seed:admin": "node src/seed/seed.js --admin-only",
     "seed:destroy": "node src/seed/seed.js --destroy",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -38,6 +42,8 @@
     "eslint-config-prettier": "^9.1.0",
     "globals": "^15.14.0",
     "nodemon": "^3.1.9",
-    "prettier": "^3.4.2"
+    "prettier": "^3.4.2",
+    "supertest": "^7.0.0",
+    "vitest": "^2.1.8"
   }
 }
