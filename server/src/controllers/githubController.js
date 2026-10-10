@@ -37,9 +37,13 @@ export const getGithub = asyncHandler(async (_req, res) => {
     githubCache.set(username, { data, expires: Date.now() + TTL_MS });
     return res.set('Cache-Control', 'public, max-age=600').json({ success: true, data });
   } catch (err) {
+    console.warn(`GitHub request failed for "${username}": ${err.status ?? 'network error'} ${err.message}`);
     // Better to show slightly old numbers than an error
     if (cached) return res.json({ success: true, data: cached.data, stale: true });
     if (err.status === 404) throw new ApiError(404, 'GitHub user not found');
+    if (err.status === 403 || err.status === 429) {
+      throw new ApiError(503, 'GitHub rate limit reached. Please try again later.');
+    }
     throw new ApiError(502, 'GitHub is unavailable right now');
   }
 });

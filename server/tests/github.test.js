@@ -122,6 +122,15 @@ describe('GET /api/github', () => {
     expect(res.body.message).toMatch(/not found/i);
   });
 
+  it('answers 503 with a clear message when GitHub rate-limits the server', async () => {
+    vi.stubGlobal('fetch', fakeGithub({ fail: 403 }));
+    await useProfile('https://github.com/dipak');
+
+    const res = await request(app).get('/api/github');
+    expect(res.status).toBe(503);
+    expect(res.body.message).toMatch(/rate limit/i);
+  });
+
   it('answers 502 when GitHub is down and nothing is cached', async () => {
     vi.stubGlobal('fetch', fakeGithub({ fail: 500 }));
     await useProfile('https://github.com/dipak');

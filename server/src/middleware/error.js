@@ -38,7 +38,8 @@ export const errorHandler = (err, _req, res, _next) => {
 
   if (status >= 500) {
     console.error(err);
-    if (env.isProd) message = 'Internal server error';
+    // Hide the details of unexpected crashes, but keep messages we wrote on purpose (ApiError)
+    if (env.isProd && !(err instanceof ApiError)) message = 'Internal server error';
   }
 
   res.status(status).json({
