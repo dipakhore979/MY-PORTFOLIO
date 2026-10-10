@@ -80,6 +80,8 @@ export const env = Object.freeze({
   mail: Object.freeze({ enabled: resend.enabled || smtp.enabled }),
   cloudinary: Object.freeze(cloudinary),
   resumeUrl: process.env.RESUME_URL || '',
+  githubUsername: process.env.GITHUB_USERNAME || '',
+  githubToken: process.env.GITHUB_TOKEN || '',
   seed: {
     adminName: process.env.ADMIN_NAME || 'Admin',
     adminEmail: (process.env.ADMIN_EMAIL || '').toLowerCase(),

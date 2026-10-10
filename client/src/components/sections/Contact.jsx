@@ -62,9 +62,10 @@ export default function Contact() {
   return (
     <Section
       id="contact"
-      eyebrow="Contact"
+      eyebrow="07 — Contact"
       title="Let's work together"
       subtitle="Have a project in mind or just want to say hi? Send me a message and I'll get back to you."
+      className="bg-slate-50 dark:bg-slate-900/40"
     >
       <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr]">
         <Reveal className="space-y-5">

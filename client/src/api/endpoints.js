@@ -14,3 +14,6 @@ export const sendMessage = (payload) => api.post('/contact', payload).then((res)
 export const resumeUrl = `${apiBase}/resume`;
 
 export const getProfile = (signal) => get('/profile', undefined, signal);
+
+export const getGithub = (signal) => get('/github', undefined, signal);
+export const getResumeInfo = (signal) => get('/resume/info', undefined, signal);

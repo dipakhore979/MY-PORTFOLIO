@@ -10,6 +10,8 @@ process.env.COOKIE_SAMESITE = 'lax';
 process.env.COOKIE_DOMAIN = '';
 process.env.SERVER_URL = '';
 process.env.RESUME_URL = '';
+process.env.GITHUB_USERNAME = '';
+process.env.GITHUB_TOKEN = '';
 process.env.TRUST_PROXY = '1';
 
 // Never send real email or touch real cloud storage during tests

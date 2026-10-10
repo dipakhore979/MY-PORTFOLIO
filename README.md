@@ -7,11 +7,13 @@ A full-stack personal portfolio with a built-in admin dashboard, so you can upda
 ## Features
 
 ### Public site
-- Hero, About (bio, photo, skills grouped by category), Projects, Experience & Education timeline, Blog preview and Contact, on one smooth-scrolling page
+- One smooth-scrolling page with a floating side navigation dock (large screens): Hero, About (bio, photo, skills grouped by category), Projects, Experience, Education, GitHub highlights, Resume and Contact
 - Projects grid with filter-by-technology and a detail page per project (Markdown)
 - Blog with tag filter and Markdown post pages (optional: the section hides itself when empty)
 - Contact form with client and server validation, spam honeypot and rate limiting. Messages are saved to MongoDB and emailed to you
-- Resume download button
+- GitHub highlights: public repos, stars, followers and most-used languages, fetched by the API from GitHub's public API and cached for an hour
+- Resume section with a PDF preview (desktop), download and full-screen buttons
+- Optional blog: the pages (`/blog`) and the admin editor still exist, but the blog is not linked from the home page or menus
 - Light / dark mode (follows the system, remembers your choice, no flash on load)
 - Mobile-first responsive design, subtle Framer Motion animations (disabled for users who prefer reduced motion)
 - SEO: per-page title, description, canonical and Open Graph / Twitter tags, JSON-LD, `robots.txt`, dynamic `sitemap.xml`, 404 page
@@ -113,6 +115,7 @@ Open <http://localhost:5173>, then <http://localhost:5173/admin> to log in with 
 | `RESEND_API_KEY` / `SMTP_*` | optional | Email provider (Resend over HTTPS, or SMTP) |
 | `CLOUDINARY_*` | recommended in production | Persistent image and resume storage |
 | `COOKIE_SAMESITE`, `TRUST_PROXY`, `SITE_URL` | production | See the deployment guide |
+| `GITHUB_USERNAME`, `GITHUB_TOKEN` | optional | GitHub section. The username is read from the GitHub link in Admin → Profile unless you set it here; a token only raises GitHub's rate limit |
 
 **Client (`client/.env`)**
 
@@ -133,13 +136,13 @@ Base path `/api`. Reads are public; writes need the admin cookie.
 | Contact | `POST /contact` |
 | Messages (admin) | `GET /messages`, `GET /messages/:id`, `PATCH /messages/:id`, `DELETE /messages/:id` |
 | Uploads (admin) | `POST /upload/image`, `POST /upload/resume` |
-| Misc | `GET /resume`, `GET /sitemap.xml`, `GET /health` |
+| Misc | `GET /resume`, `GET /resume/info`, `GET /github`, `GET /sitemap.xml`, `GET /health` |
 
 List endpoints accept `page` and `limit`. Projects accept `?tech=React&featured=true`, posts accept `?tag=mern`. Drafts are only returned to a logged-in admin.
 
 ## Testing
 
-The API has an automated test suite (Vitest + Supertest, about 150 checks) covering login and sessions, token tampering, input validation, mass-assignment and NoSQL-injection protection, draft visibility, permissions on every protected route, the contact form, uploads, rate limits, CORS, the sitemap and link-preview pages.
+The API has an automated test suite (Vitest + Supertest, about 165 checks) covering login and sessions, token tampering, input validation, mass-assignment and NoSQL-injection protection, draft visibility, permissions on every protected route, the contact form, uploads, rate limits, CORS, the sitemap and link-preview pages.
 
 ```bash
 cd server

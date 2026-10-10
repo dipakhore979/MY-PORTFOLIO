@@ -6,8 +6,7 @@ export default function Section({ id, eyebrow, title, subtitle, children, classN
       <div className="container-page">
         <Reveal className="mb-12 max-w-2xl sm:mb-14">
           {eyebrow && (
-            <p className="mb-3 flex items-center gap-3 text-sm font-semibold uppercase tracking-widest text-brand-600 dark:text-brand-400">
-              <span aria-hidden="true" className="h-px w-8 bg-brand-500" />
+            <p className="mb-3 font-mono text-sm font-semibold uppercase tracking-[0.25em] text-brand-600 dark:text-brand-400">
               {eyebrow}
             </p>
           )}

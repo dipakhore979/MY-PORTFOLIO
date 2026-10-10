@@ -1,14 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useSite } from '../../context/ProfileContext';
 import SocialLinks from '../ui/SocialLinks';
+import { navItems } from './navItems';
 
-const links = [
-  { label: 'About', to: '/#about' },
-  { label: 'Projects', to: '/#projects' },
-  { label: 'Experience', to: '/#experience' },
-  { label: 'Blog', to: '/blog' },
-  { label: 'Contact', to: '/#contact' },
-];
+const links = navItems.filter((item) => item.id !== 'home');
 
 export default function Footer() {
   const site = useSite();

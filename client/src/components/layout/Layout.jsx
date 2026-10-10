@@ -1,11 +1,14 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import BackToTop from '../ui/BackToTop';
 import ScrollProgress from '../ui/ScrollProgress';
 import Footer from './Footer';
 import Navbar from './Navbar';
 import ScrollManager from './ScrollManager';
+import SideNav from './SideNav';
 
 export default function Layout() {
+  const isHome = useLocation().pathname === '/';
+
   return (
     <div className="flex min-h-screen flex-col">
       <a
@@ -17,7 +20,12 @@ export default function Layout() {
       <ScrollProgress />
       <ScrollManager />
       <Navbar />
-      <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
+      <SideNav />
+      <main
+        id="main"
+        tabIndex={-1}
+        className={`flex-1 focus:outline-none ${isHome ? 'lg:pl-20 2xl:pl-0' : ''}`}
+      >
         <Outlet />
       </main>
       <Footer />

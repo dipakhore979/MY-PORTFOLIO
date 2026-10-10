@@ -91,6 +91,7 @@ Contact messages are always saved to the database. Email is only a notification.
 | `TRUST_PROXY` | `2` |
 | `CONTACT_RECEIVER`, `RESEND_API_KEY` | From step 4 |
 | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | From step 3 |
+| `GITHUB_TOKEN` (optional) | A GitHub personal access token with no scopes. Not needed: the API caches GitHub results for an hour. The GitHub username is taken from the GitHub link in Admin → Profile & resume. |
 
 After the deploy finishes, open `https://<your-api>.onrender.com/api/health`. You should see `{"success":true,"status":"ok",...}`.
 

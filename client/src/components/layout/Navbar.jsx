@@ -4,46 +4,17 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { resumeUrl } from '../../api/endpoints';
 import { useSite } from '../../context/ProfileContext';
+import { useScrollSpy } from '../../hooks/useScrollSpy';
 import ThemeToggle from '../ui/ThemeToggle';
-
-const links = [
-  { label: 'About', to: '/#about', id: 'about' },
-  { label: 'Projects', to: '/#projects', id: 'projects' },
-  { label: 'Experience', to: '/#experience', id: 'experience' },
-  { label: 'Blog', to: '/blog' },
-  { label: 'Contact', to: '/#contact', id: 'contact' },
-];
-const sectionIds = links.filter((l) => l.id).map((l) => l.id);
-
-/** Highlights the nav link of the section currently in view (home page only). */
-function useScrollSpy(enabled) {
-  const [active, setActive] = useState('');
-
-  useEffect(() => {
-    if (!enabled) {
-      setActive('');
-      return undefined;
-    }
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
-      { rootMargin: '-40% 0px -55% 0px' },
-    );
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, [enabled]);
-
-  return active;
-}
+import { navItems, sectionIds, topBarItems } from './navItems';
 
 export default function Navbar() {
   const site = useSite();
   const { pathname } = useLocation();
+  const isHome = pathname === '/';
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const active = useScrollSpy(pathname === '/');
+  const active = useScrollSpy(sectionIds, isHome);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -53,8 +24,6 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => setOpen(false), [pathname]);
-
-  const isActive = (link) => (link.id ? active === link.id : pathname.startsWith(link.to));
 
   return (
     <header
@@ -69,19 +38,20 @@ export default function Navbar() {
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-purple-600 text-sm font-bold text-white shadow-md shadow-brand-600/30">
             {site.initials}
           </span>
-          <span className="hidden tracking-tight sm:inline">{site.name}</span>
+          <span className="hidden tracking-tight lg:inline">{site.name}</span>
         </Link>
 
         <div className="hidden items-center gap-3 md:flex">
+          {/* Section links stay in the top bar; the side dock repeats them as icons */}
           <ul className="flex items-center gap-0.5 rounded-full border border-slate-200 bg-white/70 p-1 backdrop-blur dark:border-slate-800 dark:bg-slate-900/70">
-            {links.map((link) => {
-              const current = isActive(link);
+            {topBarItems.map((item) => {
+              const current = isHome && active === item.id;
               return (
-                <li key={link.label}>
+                <li key={item.id}>
                   <Link
-                    to={link.to}
-                    aria-current={current ? 'page' : undefined}
-                    className={`relative block rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+                    to={item.to}
+                    aria-current={current ? 'location' : undefined}
+                    className={`relative block rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
                       current
                         ? 'text-brand-700 dark:text-white'
                         : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
@@ -94,7 +64,7 @@ export default function Navbar() {
                         transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                       />
                     )}
-                    <span className="relative">{link.label}</span>
+                    <span className="relative">{item.label}</span>
                   </Link>
                 </li>
               );
@@ -105,7 +75,7 @@ export default function Navbar() {
             href={resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-primary !py-2"
+            className="btn btn-primary hidden !py-2 lg:inline-flex"
           >
             <Download className="h-4 w-4" aria-hidden="true" />
             Resume
@@ -137,17 +107,18 @@ export default function Navbar() {
             className="overflow-hidden md:hidden"
           >
             <div className="container-page flex flex-col gap-1 pb-4">
-              {links.map((link) => (
+              {navItems.map(({ id, label, icon: Icon, to }) => (
                 <Link
-                  key={link.label}
-                  to={link.to}
-                  className={`rounded-lg px-3 py-2.5 text-base font-medium ${
-                    isActive(link)
+                  key={id}
+                  to={to}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-base font-medium ${
+                    isHome && active === id
                       ? 'bg-brand-50 text-brand-700 dark:bg-brand-500/20 dark:text-white'
                       : 'text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
                   }`}
                 >
-                  {link.label}
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                  {label}
                 </Link>
               ))}
               <a

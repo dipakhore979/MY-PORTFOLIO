@@ -32,7 +32,7 @@ export default function About() {
   const groups = data ? groupSkills(data.data) : [];
 
   return (
-    <Section id="about" eyebrow="About" title="A bit about me" className="bg-slate-50 dark:bg-slate-900/40">
+    <Section id="about" eyebrow="01 — About" title="A bit about me" className="bg-slate-50 dark:bg-slate-900/40">
       <div className="grid items-center gap-12 lg:grid-cols-[300px_1fr] lg:gap-16">
         <Reveal className="mx-auto w-full max-w-[18rem]">
           <div className="relative">

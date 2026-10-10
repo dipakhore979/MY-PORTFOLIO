@@ -1,9 +1,10 @@
 import About from '../components/sections/About';
-import BlogPreview from '../components/sections/BlogPreview';
 import Contact from '../components/sections/Contact';
 import Experience from '../components/sections/Experience';
+import GitHubSection from '../components/sections/GitHubSection';
 import Hero from '../components/sections/Hero';
 import Projects from '../components/sections/Projects';
+import ResumeSection from '../components/sections/ResumeSection';
 import Seo from '../components/ui/Seo';
 import { useSite } from '../context/ProfileContext';
 
@@ -26,7 +27,8 @@ export default function Home() {
       <About />
       <Projects />
       <Experience />
-      <BlogPreview />
+      <GitHubSection />
+      <ResumeSection />
       <Contact />
     </>
   );

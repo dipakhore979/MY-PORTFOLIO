@@ -2,6 +2,7 @@ import { Router } from 'express';
 import authRoutes from './authRoutes.js';
 import contactRoutes from './contactRoutes.js';
 import experienceRoutes from './experienceRoutes.js';
+import githubRoutes from './githubRoutes.js';
 import messageRoutes from './messageRoutes.js';
 import postRoutes from './postRoutes.js';
 import profileRoutes from './profileRoutes.js';
@@ -30,6 +31,7 @@ router.use('/contact', contactRoutes);
 router.use('/messages', messageRoutes);
 router.use('/upload', uploadRoutes);
 router.use('/resume', resumeRoutes);
+router.use('/github', githubRoutes);
 router.use('/share', shareRoutes);
 
 export default router;

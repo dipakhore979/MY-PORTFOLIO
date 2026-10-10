@@ -29,7 +29,7 @@ export default function Projects() {
   return (
     <Section
       id="projects"
-      eyebrow="Projects"
+      eyebrow="02 — Projects"
       title="Things I've built"
       subtitle="A selection of projects. Filter by technology to find what interests you."
     >
