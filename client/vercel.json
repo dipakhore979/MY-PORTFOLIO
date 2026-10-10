@@ -1,7 +1,27 @@
 {
   "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|LinkedInBot|WhatsApp|Twitterbot|Slackbot|TelegramBot|Discordbot|Pinterestbot|SkypeUriPreview|redditbot).*" }],
+      "destination": "https://my-portfolio-zh77.onrender.com/api/share/home"
+    },
+    {
+      "source": "/blog",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|LinkedInBot|WhatsApp|Twitterbot|Slackbot|TelegramBot|Discordbot|Pinterestbot|SkypeUriPreview|redditbot).*" }],
+      "destination": "https://my-portfolio-zh77.onrender.com/api/share/blog"
+    },
+    {
+      "source": "/projects/:slug",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|LinkedInBot|WhatsApp|Twitterbot|Slackbot|TelegramBot|Discordbot|Pinterestbot|SkypeUriPreview|redditbot).*" }],
+      "destination": "https://my-portfolio-zh77.onrender.com/api/share/projects/:slug"
+    },
+    {
+      "source": "/blog/:slug",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|LinkedInBot|WhatsApp|Twitterbot|Slackbot|TelegramBot|Discordbot|Pinterestbot|SkypeUriPreview|redditbot).*" }],
+      "destination": "https://my-portfolio-zh77.onrender.com/api/share/posts/:slug"
+    },
     { "source": "/api/:path*", "destination": "https://my-portfolio-zh77.onrender.com/api/:path*" },
-    { "source": "/sitemap.xml", "destination": "https://my-portfolio-zh77.onrender.com/sitemap.xml" },
+    { "source": "/sitemap.xml", "destination": "https://my-portfolio-zh77.onrender.com/api/sitemap.xml" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
@@ -17,10 +37,6 @@
     {
       "source": "/assets/(.*)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
-    },
-       { "source": "/", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|LinkedInBot|WhatsApp|Twitterbot|Slackbot|TelegramBot|Discordbot|Pinterestbot|SkypeUriPreview|redditbot).*" }], "destination": "https://my-portfolio-zh77.onrender.com/api/share/home" },
-   { "source": "/blog", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|LinkedInBot|WhatsApp|Twitterbot|Slackbot|TelegramBot|Discordbot|Pinterestbot|SkypeUriPreview|redditbot).*" }], "destination": "https://my-portfolio-zh77.onrender.com/api/share/blog" },
-   { "source": "/projects/:slug", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|LinkedInBot|WhatsApp|Twitterbot|Slackbot|TelegramBot|Discordbot|Pinterestbot|SkypeUriPreview|redditbot).*" }], "destination": "https://my-portfolio-zh77.onrender.com/api/share/projects/:slug" },
-   { "source": "/blog/:slug", "has": [{ "type": "header", "key": "user-agent", "value": ".*(facebookexternalhit|Facebot|LinkedInBot|WhatsApp|Twitterbot|Slackbot|TelegramBot|Discordbot|Pinterestbot|SkypeUriPreview|redditbot).*" }], "destination": "https://my-portfolio-zh77.onrender.com/api/share/posts/:slug" }
+    }
   ]
 }
