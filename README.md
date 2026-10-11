@@ -99,13 +99,13 @@ The backend is a REST API with validation, rate limiting and an automated test s
 
 ```mermaid
 flowchart LR
-  V[Visitor] --> F[Vercel<br/>React app]
-  F -- "/api proxy" --> A[Render<br/>Express API]
-  B[Link preview bots] -- "user-agent rewrite" --> A
-  A --> D[(MongoDB Atlas)]
-  A --> C[Cloudinary]
-  A --> G[GitHub API]
-  A --> E[Resend]
+  visitor["Visitor"] --> vercel["Vercel: React app"]
+  vercel -->|api proxy| api["Render: Express API"]
+  bots["Link preview bots"] -->|user agent rewrite| api
+  api --> db["MongoDB Atlas"]
+  api --> cloud["Cloudinary"]
+  api --> github["GitHub API"]
+  api --> mail["Resend"]
 ```
 
 The site proxies `/api` to the API, so the browser only ever talks to one origin. The login cookie is therefore first-party and works in Safari as well as Chromium browsers.
